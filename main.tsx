@@ -2,32 +2,6 @@ const W = 9;
 const H = 9;
 const NUM_MINES = 10;
 
-type ClockState = { time: number };
-
-class Clock extends preact.Component<{}, ClockState> {
-    timer: number
-
-    constructor() {
-        super();
-        this.state = { time: Date.now() };
-    }
-
-    componentDidMount() {
-        this.timer = setInterval(() => {
-            this.setState({ time: Date.now() });
-        }, 1000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timer);
-    }
-
-    render() {
-        let time = new Date(this.state.time).toLocaleTimeString();
-        return <span>{time}</span>;
-    }
-}
-
 type CellState = {
     value: 'mine' | number
     vis: 'unknown' | 'revealed' | 'flagged'
@@ -204,11 +178,10 @@ function dummyClick() {
 
 let Main = () =>
 <div>
-    <Clock/>
-    <hr/>
     <Minefield/>
     {window.location.hash != '#dev' ? null :
     <div>
+        <hr/>
         Visuals:
         <table>
         <tr>
