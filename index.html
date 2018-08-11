@@ -1,0 +1,56 @@
+<style>
+  .minefield {
+    border-spacing: 0px;
+    box-shadow: -1px -1px 4px #555;
+  }
+  .minefield td {
+    width: 25px;
+    height: 25px;
+    background-color: #ccc;
+    box-shadow: inset -2px -2px 4px #333, inset 2px 2px 4px white;
+    padding: 0px;
+    vertical-align: middle;
+    text-align: center;
+  }
+  .minefield td:hover {
+    background-color: #bbb;
+  }
+  .minefield td.revealed {
+    background-color: #aaa;
+    box-shadow: inset 0px 0px 4px #777;
+    font-weight: bold;
+  }
+  .minefield td.flagged.content-mine {
+    background-color: #5c5;
+  }
+  .minefield td.revealed.content-mine {
+    background-color: red;
+  }
+  .minefield td.revealed.content-1 {
+    color: #00c;
+  }
+  .minefield td.revealed.content-2 {
+    color: #070;
+  }
+  .minefield td.revealed.content-3 {
+    color: #c00;
+  }
+  .minefield td.revealed.content-4 {
+    color: #007;
+  }
+  .minefield td.revealed.content-5 {
+    color: #700;
+  }
+  .minefield td.revealed.content-6 {
+    color: #077;
+  }
+  .minefield td.revealed.content-7 {
+    color: #000;
+  }
+  .minefield td.revealed.content-8 {
+    color: #555;
+  }
+</style>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/preact/8.3.0/preact.min.js'></script>
+<script src='/main.js'></script>
