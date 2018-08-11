@@ -138,14 +138,18 @@ class Minefield extends preact.Component<{}, MinefieldState> {
         }
 
         let state = this.state;
+        let cell = state.field[i][j];
         if (e.button == 0) {
-            if (status == 'new') {
-                placeMines(state.field, NUM_MINES, i, j);
+            if (cell.vis == 'flagged') {
+                cell.vis = 'unknown';
+            } else {
+                if (status == 'new') {
+                    placeMines(state.field, NUM_MINES, i, j);
+                }
+                reveal(state.field, i, j);
             }
-            reveal(state.field, i, j);
         }
         else if (e.button == 2) {
-            let cell = state.field[i][j];
             if (cell.vis == 'flagged') {
                 cell.vis = 'unknown';
             } else if (cell.vis == 'unknown') {
@@ -153,13 +157,13 @@ class Minefield extends preact.Component<{}, MinefieldState> {
             }
         }
         this.setState(state);
+        e.preventDefault();
     }
 
     render() {
         let status = gameStatus(this.state.field);
         let finished = status == 'won' || status == 'lost';
-        return <div><h1>{status}</h1>
-        <table class='minefield'>
+        return <table>
             {this.state.field.map((row, i) =>
                 <tr>
                     {row.map((cell, j) =>
@@ -167,39 +171,65 @@ class Minefield extends preact.Component<{}, MinefieldState> {
                     )}
                 </tr>
             )}
-        </table>
-        </div>;
+        </table>;
     }
 }
 
 function renderCell(state: CellState, click: (e: MouseEvent) => void, gameFinished: boolean) {
     if (state.vis == 'flagged') {
         if (gameFinished && state.value == 'mine') {
-            return <td class='flagged content-mine'>⚫</td>;
+            return <td class='flat guessed'>⚫</td>;
         }
-        return <td onClick={click} onContextMenu={(e) => { click(e); e.preventDefault();}}>🚩</td>;
+        return <td onClick={click} onContextMenu={click}>🚩</td>;
     } else if (state.vis == 'revealed') {
         if (state.value == 'mine') {
-            return <td class='revealed content-mine'>⚫</td>;
+            return <td class='flat exploded'>⚫</td>;
         } else {
-            return <td class={'revealed content-' + state.value}>{state.value || ''}</td>;
+            return <td class={'flat content-' + state.value}>{state.value || ''}</td>;
         }
     } else if (state.vis == 'unknown') {
         if (gameFinished && state.value == 'mine') {
-            return <td class='content-mine'>⚫</td>;
+            return <td class='flat '>⚫</td>;
         }
-        return <td onClick={click} onContextMenu={(e) => { click(e); e.preventDefault();}}/>;
+        return <td onClick={click} onContextMenu={click}/>;
     } else {
         console.assert(false, state.vis);
     }
 }
 
 
+function dummyClick() {
+    return;
+}
+
 let Main = () =>
 <div>
     <Clock/>
     <hr/>
     <Minefield/>
+    {window.location.hash != '#dev' ? null :
+    <div>
+        Visuals:
+        <table>
+        <tr>
+            {renderCell({value: 1, vis: 'revealed'}, dummyClick, false)}
+            {renderCell({value: 'mine', vis: 'flagged'}, dummyClick, false)}
+            {renderCell({value: 'mine', vis: 'unknown'}, dummyClick, false)}
+        </tr>
+        <tr>
+            {renderCell({value: 'mine', vis: 'revealed'}, dummyClick, true)}
+            {renderCell({value: 'mine', vis: 'flagged'}, dummyClick, true)}
+            {renderCell({value: 'mine', vis: 'unknown'}, dummyClick, true)}
+        </tr>
+        {[...Array(3)].map((_, i) =>
+            <tr>
+                {[...Array(3)].map((_, j) =>
+                    renderCell({value: 3 * i + j, vis: 'revealed'}, dummyClick, false))}
+            </tr>
+        )}
+        </table>
+    </div>
+    }
 </div>;
 
 window.onload = () => {

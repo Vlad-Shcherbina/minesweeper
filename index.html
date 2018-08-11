@@ -1,9 +1,11 @@
+<!doctype html>
+
 <style>
-  .minefield {
+  table {
     border-spacing: 0px;
     box-shadow: -1px -1px 4px #555;
   }
-  .minefield td {
+  td {
     width: 25px;
     height: 25px;
     background-color: #ccc;
@@ -12,42 +14,42 @@
     vertical-align: middle;
     text-align: center;
   }
-  .minefield td:hover {
+  td:hover {
     background-color: #bbb;
   }
-  .minefield td.revealed {
+  td.flat {
     background-color: #aaa;
     box-shadow: inset 0px 0px 4px #777;
     font-weight: bold;
   }
-  .minefield td.flagged.content-mine {
+  td.guessed {
     background-color: #5c5;
   }
-  .minefield td.revealed.content-mine {
+  td.exploded {
     background-color: red;
   }
-  .minefield td.revealed.content-1 {
+  td.flat.content-1 {
     color: #00c;
   }
-  .minefield td.revealed.content-2 {
+  td.flat.content-2 {
     color: #070;
   }
-  .minefield td.revealed.content-3 {
+  td.flat.content-3 {
     color: #c00;
   }
-  .minefield td.revealed.content-4 {
+  td.flat.content-4 {
     color: #007;
   }
-  .minefield td.revealed.content-5 {
+  td.flat.content-5 {
     color: #700;
   }
-  .minefield td.revealed.content-6 {
+  td.flat.content-6 {
     color: #077;
   }
-  .minefield td.revealed.content-7 {
+  td.flat.content-7 {
     color: #000;
   }
-  .minefield td.revealed.content-8 {
+  td.flat.content-8 {
     color: #555;
   }
 </style>
