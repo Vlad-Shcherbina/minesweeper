@@ -149,21 +149,24 @@ class Minefield extends preact.Component<{}, MinefieldState> {
     }
 }
 
+const MINE = <span>⚫</span>
+const FLAG = <span>🚩</span>
+
 function renderCell(state: CellState, click: (e: MouseEvent) => void, gameFinished: boolean) {
     if (state.vis == 'flagged') {
         if (gameFinished && state.value == 'mine') {
-            return <td class='flat guessed'>⚫</td>;
+            return <td class='flat guessed'>{MINE}</td>;
         }
-        return <td onClick={click} onContextMenu={click}>🚩</td>;
+        return <td onClick={click} onContextMenu={click}>{FLAG}</td>;
     } else if (state.vis == 'revealed') {
         if (state.value == 'mine') {
-            return <td class='flat exploded'>⚫</td>;
+            return <td class='flat exploded'>{MINE}</td>;
         } else {
             return <td class={'flat content-' + state.value}>{state.value || ''}</td>;
         }
     } else if (state.vis == 'unknown') {
         if (gameFinished && state.value == 'mine') {
-            return <td class='flat '>⚫</td>;
+            return <td class='flat '>{MINE}</td>;
         }
         return <td onClick={click} onContextMenu={click}/>;
     } else {
